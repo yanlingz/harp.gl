@@ -694,6 +694,10 @@ export interface MarkerTechniqueParams extends BaseTechniqueParams {
      */
     iconScale?: number;
     /**
+     * The height of the stick in pixels.
+     */
+    iconStickHeight?: number;
+    /**
      * Vertical height in pixels, controls vertical scaling. Overrides `iconScale`.
      */
     screenHeight?: DynamicProperty<number>;
