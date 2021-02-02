@@ -648,32 +648,8 @@ export class StyleSetEvaluator {
             return true;
         }
 
-        if (style.minZoomLevel !== undefined) {
-            let minZoomLevel: Value = style.minZoomLevel;
-
-            if (style._minZoomLevelExpr) {
-                // the constraint is defined as expression, evaluate it and
-                // use its value
-                try {
-                    minZoomLevel = style._minZoomLevelExpr.evaluate(
-                        env,
-                        ExprScope.Condition,
-                        this.m_cachedResults
-                    );
-                } catch (error) {
-                    logger.error(
-                        `failed to evaluate expression '${JSON.stringify(
-                            style._minZoomLevelExpr
-                        )}': ${error}`
-                    );
-                }
-            }
-
-            if (typeof minZoomLevel === "number" && zoomLevel < minZoomLevel) {
-                return false;
-            }
-        }
-
+        // Do not check minZoomLevel. Actual zoom level may be higher than the value retrieved from
+        // the environment for views with mixed LOD.
         if (style.maxZoomLevel !== undefined) {
             let maxZoomLevel: Value = style.maxZoomLevel;
 
@@ -692,7 +668,6 @@ export class StyleSetEvaluator {
                     );
                 }
             }
-
             if (typeof maxZoomLevel === "number" && zoomLevel >= maxZoomLevel) {
                 return false;
             }
